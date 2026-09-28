@@ -1,0 +1,40 @@
+name: Build Torchlight2SharedStashManager
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Install Qt5 5.15.2 MinGW64
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '5.15.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw'
+          modules: 'qtbase qtsvg qtsql qtwidgets'
+          cache: true
+
+      - name: Build with qmake
+        run: |
+          qmake Torchlight2SharedStashManager.pro
+          mingw32-make -j4
+
+      - name: Deploy Qt dependencies
+        run: |
+          cd release
+          windeployqt Torchlight2SharedStashManager.exe
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Torchlight2-StashManager-Win64
+          path: release/
