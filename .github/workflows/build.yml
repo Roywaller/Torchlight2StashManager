@@ -18,15 +18,13 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Install Qt5 5.15.2 MinGW8.1
+      - name: Install Qt5 5.15.2 MSVC2019_64
         uses: jurplel/install-qt-action@v4
         with:
           version: '5.15.2'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_mingw81'
-          # ✅ 用空格分隔模块，不要逗号！
-          modules: 'sql svg'
+          arch: 'win64_msvc2019_64'
           cache: true
 
       - name: Create build directory
@@ -35,7 +33,7 @@ jobs:
         run: |
           cd build
           qmake ../Torchlight2SharedStashManager.pro
-          mingw32-make -j4
+          nmake
 
       - name: Deploy Qt dependencies
         run: |
