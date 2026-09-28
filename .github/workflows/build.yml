@@ -24,8 +24,9 @@ jobs:
           version: '5.15.2'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_mingw81' # 修复这里！！
-          modules: 'qtbase qtsvg qtsql qtwidgets'
+          arch: 'win64_mingw81'
+          # ✅ Qt5 去掉 qt 前缀！
+          modules: 'sql,svg,widgets'
           cache: true
 
       - name: Build with qmake
