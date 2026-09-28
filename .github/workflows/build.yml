@@ -1,10 +1,15 @@
 name: Build Torchlight2SharedStashManager
 
-# 触发条件：push到任意分支（本地git push，或者GitHub网页在线编辑保存都会触发）
 on:
   push:
-    # 所有分支都触发，如果你只想main分支触发，改成 branches: [ main ]
     branches: [ '*' ]
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.pro'
+      - '**.ui'
+      - '**.qrc'
+      - '.github/workflows/build.yml'
 
 jobs:
   build:
@@ -13,13 +18,13 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Install Qt5 5.15.2 MinGW64
+      - name: Install Qt5 5.15.2 MinGW8.1
         uses: jurplel/install-qt-action@v4
         with:
           version: '5.15.2'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_mingw'
+          arch: 'win64_mingw81' # 修复这里！！
           modules: 'qtbase qtsvg qtsql qtwidgets'
           cache: true
 
