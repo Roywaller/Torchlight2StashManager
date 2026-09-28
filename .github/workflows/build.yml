@@ -1,10 +1,10 @@
 name: Build Torchlight2SharedStashManager
 
+# 触发条件：push到任意分支（本地git push，或者GitHub网页在线编辑保存都会触发）
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    # 所有分支都触发，如果你只想main分支触发，改成 branches: [ main ]
+    branches: [ '*' ]
 
 jobs:
   build:
