@@ -25,22 +25,25 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win64_mingw81'
-          # ✅ Qt5 去掉 qt 前缀！
-          modules: 'sql,svg,widgets'
+          # ✅ 用空格分隔模块，不要逗号！
+          modules: 'sql svg'
           cache: true
 
+      - name: Create build directory
+        run: mkdir build
       - name: Build with qmake
         run: |
-          qmake Torchlight2SharedStashManager.pro
+          cd build
+          qmake ../Torchlight2SharedStashManager.pro
           mingw32-make -j4
 
       - name: Deploy Qt dependencies
         run: |
-          cd release
+          cd build\release
           windeployqt Torchlight2SharedStashManager.exe
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: Torchlight2-StashManager-Win64
-          path: release/
+          path: build/release/
